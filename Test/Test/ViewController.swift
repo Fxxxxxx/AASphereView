@@ -12,12 +12,12 @@ let SCREENWIDTH = UIScreen.main.bounds.width
 let SCREENHEIGHT = UIScreen.main.bounds.height
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let frame = CGRect.init(x: 0, y: (SCREENHEIGHT - SCREENWIDTH) / 2.0, width: SCREENWIDTH, height: SCREENWIDTH)
+        let frame = CGRect.init(x: 10, y: (SCREENHEIGHT - SCREENWIDTH) / 2.0, width: SCREENWIDTH - 20, height: SCREENWIDTH)
         let sphereView = AASphereView.init(frame: frame)
         self.view.addSubview(sphereView)
         
@@ -27,6 +27,7 @@ class ViewController: UIViewController {
             let button = UIButton.init()
             button.setTitle("aa\(i)", for: .normal)
             button.setTitleColor(UIColor.brown, for: .normal)
+            button.addTarget(self, action: #selector(buttonAction(btn:)), for: .touchUpInside)
             button.sizeToFit()
             tags.append(button)
             
@@ -34,7 +35,11 @@ class ViewController: UIViewController {
         sphereView.setTagViews(array: tags)
         
     }
-
+    
+    @objc func buttonAction(btn: UIButton) {
+        
+        
+    }
 
 }
 
