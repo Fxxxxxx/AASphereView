@@ -25,6 +25,7 @@ class AASphereView: UIView {
     private var translation = CGPoint.zero
     private var velocity = CGPoint.zero
     private var timer: CADisplayLink?
+    private var isPaned = false
     
     override init(frame: CGRect) {
         
@@ -124,14 +125,18 @@ class AASphereView: UIView {
     
     @objc func autoRotate() {
         
-        let distance = sqrt(pow(translation.x, 2) + pow(translation.y, 2))
-        if distance > 1 {
-            
-            let scale: CGFloat = 0.9
-            translation.x *= scale
-            translation.y *= scale
-            rotateWith(translation: translation)
-            
+        if isPaned {
+            let distance = sqrt(pow(translation.x, 2) + pow(translation.y, 2))
+            if distance > 1 {
+                
+                let scale: CGFloat = 0.9
+                translation.x *= scale
+                translation.y *= scale
+                rotateWith(translation: translation)
+                
+            } else {
+                isPaned = false
+            }
         }
         
         rotateWith(translation: CGPoint.init(x: translation.x, y: translation.y))
@@ -158,6 +163,7 @@ class AASphereView: UIView {
         
         else if pan.state == .ended {
             
+            isPaned = true
             timer?.isPaused = false
             
         }
