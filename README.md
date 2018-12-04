@@ -10,8 +10,9 @@
 
 >实现的思路主要来自于[DBSphereTagCloud](https://github.com/dongxinb/DBSphereTagCloud)，方法基本相似；球面运动时的坐标运算使用了[SwiftNum](https://github.com/donald-pinckney/SwiftNum)
 
-####1. 先来构建一个球来摆放子视图
-**思路：**我们按照需要展示的子视图个数沿着z轴将球体等分成相应份数，然后按照一个常数`angle`角度来做旋转，构造一个沿着球面的螺旋，这个常数角度的选择有些门道，要让他的循环周期尽量长，不然很容易看到我们的球面像西瓜一样被等分成几瓣，如果我们设置成π/4，我们来看一下等分的效果
+#### 1.先来构建一个球来摆放子视图
+
+**思路：** 我们按照需要展示的子视图个数沿着z轴将球体等分成相应份数，然后按照一个常数`angle`角度来做旋转，构造一个沿着球面的螺旋，这个常数角度的选择有些门道，要让他的循环周期尽量长，不然很容易看到我们的球面像西瓜一样被等分成几瓣，如果我们设置成π/4，我们来看一下等分的效果
 
 ![image.png](https://upload-images.jianshu.io/upload_images/3569202-49bc1b28a8a2a10c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -47,8 +48,9 @@
         
     }
 ```
-####2. 球面旋转，坐标计算
-思路：这里的球面坐标计算比较复杂，使用了矩阵计算，我调用了[SwiftNum](https://github.com/donald-pinckney/SwiftNum)现成的接口。
+#### 2.球面旋转，坐标计算
+
+**思路：** 这里的球面坐标计算比较复杂，使用了矩阵计算，我调用了[SwiftNum](https://github.com/donald-pinckney/SwiftNum)现成的接口。
 这里传入的translation是旋转的位移，投影在xy坐标系上，作用域为（-1，1）
 
 ```
