@@ -147,7 +147,7 @@ class AASphereView: UIView {
         
         if pan.state == .began {
             
-            lastPan = CGPoint.zero
+            lastPan = pan.translation(in: self)
             timer?.isPaused = true
             
         }
