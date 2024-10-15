@@ -94,7 +94,7 @@ class AASphereView: UIView {
         let scale = (coordinate.z + 2.0) / 3.0      //0.3~1
         tagView.transform = CGAffineTransform.init(scaleX: scale, y: scale)
         tagView.alpha = scale
-        tagView.isUserInteractionEnabled = coordinate.x > 0.0
+        tagView.isUserInteractionEnabled = coordinate.z > 0.0
         
     }
     
