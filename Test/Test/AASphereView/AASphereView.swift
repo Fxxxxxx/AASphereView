@@ -18,6 +18,8 @@ class AASphereView: UIView {
     }
     */
     
+    private let defaultTranslation = CGPoint.init(x: 1, y: 0)
+    
     private var coordinates = [AAPoint]()
     private var tagViews = [UIView]()
     
@@ -50,7 +52,8 @@ class AASphereView: UIView {
         let pan = UIPanGestureRecognizer.init(target: self, action: #selector(panAction(pan:)))
         self.addGestureRecognizer(pan)
         
-        translation = CGPoint.init(x: 1, y: 0)
+        /// 设置初始旋转方向
+        translation = defaultTranslation
         
         timer = CADisplayLink.init(target: self, selector: #selector(autoRotate))
         timer?.add(to: RunLoop.main, forMode: .common)
@@ -125,6 +128,11 @@ class AASphereView: UIView {
     
     @objc func autoRotate() {
         
+        /// 兜底逻辑，translation不可用时恢复默认旋转方向
+        if translation == .zero {
+            translation = defaultTranslation
+        }
+        
         if isPaned {
             let distance = sqrt(pow(translation.x, 2) + pow(translation.y, 2))
             if distance > 1 {
@@ -145,27 +153,28 @@ class AASphereView: UIView {
     
     @objc func panAction(pan: UIPanGestureRecognizer) {
         
-        if pan.state == .began {
-            
+        switch pan.state {
+        case .began:
             lastPan = pan.translation(in: self)
             timer?.isPaused = true
             
-        }
-        
-        else if pan.state == .changed {
-            
+        case .changed:
             let current = pan.translation(in: self)
-            translation = CGPoint.init(x: current.x - lastPan.x, y: current.y - lastPan.y)
-            rotateWith(translation: translation)
+            let newTranslation = CGPoint.init(x: current.x - lastPan.x, y: current.y - lastPan.y)
             lastPan = current
-            
-        }
-        
-        else if pan.state == .ended {
-            
+            if !newTranslation.equalTo(.zero) {
+                translation = newTranslation
+                rotateWith(translation: translation)
+            }
+                        
+        case .ended:
             isPaned = true
-            timer?.isPaused = false
+            fallthrough
             
+        default:
+            if timer?.isPaused ?? false {
+                timer?.isPaused = false
+            }
         }
         
     }

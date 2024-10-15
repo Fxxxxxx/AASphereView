@@ -29,6 +29,7 @@ class ViewController: UIViewController {
             button.setTitleColor(UIColor.brown, for: .normal)
             button.addTarget(self, action: #selector(buttonAction(btn:)), for: .touchUpInside)
             button.sizeToFit()
+            button.tag = i
             tags.append(button)
             
         }
@@ -37,8 +38,7 @@ class ViewController: UIViewController {
     }
     
     @objc func buttonAction(btn: UIButton) {
-        
-        
+        print("tap with tag: \(btn.tag)")
     }
 
 }
